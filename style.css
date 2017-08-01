@@ -1,0 +1,22 @@
+#register {
+    margin:auto;
+    border-radius: 10px;
+    background-color: #789eb4;
+    height: 300px;
+    width: 500px;
+
+    display: table-cell;
+    vertical-align: middle;
+}
+
+#outer{
+    position: absolute;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 300px;
+    width:500px;
+    text-align: center;
+}
