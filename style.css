@@ -1,22 +1,47 @@
+/*#outer{*/
+    /*position: absolute;*/
+    /*margin: auto;*/
+    /*top: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*height: 300px;*/
+    /*width:500px;*/
+    /*text-align: center;*/
+/*}*/
+
 #register {
-    margin:auto;
+margin:auto;
+border-radius: 10px;
+background-color: #789eb4;
+height: 300px;
+width: 500px;
+
+display: table-cell;
+vertical-align: middle;
+}
+
+#selectLevel {
+    margin: auto;
     border-radius: 10px;
-    background-color: #789eb4;
+    background-color: #998fb4;
     height: 300px;
     width: 500px;
-
+    text-align: center;
     display: table-cell;
     vertical-align: middle;
 }
 
-#outer{
-    position: absolute;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+#game{
+    margin:auto;
+    border-radius: 10px;
+    background-color: #998fb4;
     height: 300px;
-    width:500px;
+    width: 500px;
     text-align: center;
+    display: table-cell;
+    vertical-align: middle;
 }
+
+
+

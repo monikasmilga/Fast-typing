@@ -10,25 +10,58 @@
 <body>
 
 
-<div id="outer">
+<!--<div id="outer">-->
 <h1>Fast typing</h1>
-    <div id="register">
-        <div class="input-group">
-            <span class="input-group-addon" id="basic-addon1">Enter name</span>
-            <input type="text" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
-            <button class="btn btn-secondary" type="button">Lets play!</button>
-        </div>
+<div id="register" class="invisible">
+    <div class="input-group">
+        <span class="input-group-addon" id="basic-addon1">Enter name</span>
+        <input id='register-input' type="text" class="form-control" placeholder="Username"
+               aria-describedby="basic-addon1">
+        <button id='register-button' class="btn btn-secondary" type="button" disabled value="true">Lets play!
+        </button>
     </div>
+</div>
 
-    <!--<input id="register-input" placeholder="My name is">-->
-    <!--<button id="register-button">Submit</button>-->
+<div id="selectLevel" class="invisible">
+    <form>
+        <div class="form-check form-check-inline">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="levelEasy"
+                       value='9'>
+                Easy
+            </label>
+        </div>
+        <div class="form-check form-check-inline">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="levelAverage"
+                       value="6">
+                Average
+            </label>
+        </div>
+        <div class="form-check form-check-inline">
+            <label class="form-check-label">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="levelDifficult"
+                       value="3">
+                Difficult
+            </label>
+        </div>
+        <div>
+            <button id='selectLevel-button' type="submit" class="btn btn-secondary btn-lg active">Lets play!</button>
+        </div>
+    </form>
+</div>
+<div id="game" class="invisible">
+
+    <h1>Hello</h1>
 
 </div>
 
+
+
+
+
 </body>
-<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
-        integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
-        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
         integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
         crossorigin="anonymous"></script>
