@@ -1,4 +1,3 @@
-
 var FastTyping = function () {
 
 
@@ -8,7 +7,8 @@ var FastTyping = function () {
         STATE_END = 'game over state';
 
     var name,
-        lastState;
+        lastState,
+        level;
 
     // -------------------------------Register name logic--------------------------------------------
 
@@ -61,11 +61,10 @@ var FastTyping = function () {
     var LevelLogic = function () {
 
         var view = $('#selectLevel'),
-            levelButton = $('#selectLevel-button'),
-            levelRadio = $('input[name=inlineRadioOptions]:checked').val();
+            levelButton = $('#selectLevel-button');
 
         this.show = function () {
-            view.removeClass('invisible');
+            view.removeClass('invisible').prepend('<h3>Player ' + name + '</h3>');
             enableLevel();
         };
 
@@ -76,37 +75,53 @@ var FastTyping = function () {
 
         function enableLevel() {
 
-            levelButton.click(function (){
+            levelButton.click(function () {
+                level = $('input[name = gamePlay]:checked').val();
                 changeState(STATE_GAME);
             })
 
 
+        }
+
+        function disableLevel() {
+            levelButton.unbind();
 
         }
     };
 
-    function disableLevel() {
 
-
-    }
-    var level = new LevelLogic();
+    var levelSelect = new LevelLogic();
 
     // -------------------------------Game logic--------------------------------------------
 // set timeout
 // set interval
-    var GameLogic = function() {
+    var GameLogic = function () {
 
-        var view = $('#game')
+        var view = $('#game');
+        var letters = 'abcdefghijklmnopqrstuvwxyz',
+            timeOut,
+            letterKey,
+            letterShow = $('h1');
 
         this.show = function () {
-            view.removeClass('invisible');
-            enableLevel();
+            view.removeClass('hidden').prepend('<h3>Player ' + name + ' plays in level</h3>' + level);
+            changeLetter();
         };
 
         this.hide = function () {
-            view.addClass('invisible')
-            disableLevel();
+            view.addClass('hidden')
+
         };
+        
+        function enable() {
+            timeOut = setTimeout(changeLetter, level * 1000);
+        }
+        
+        function changeLetter(){
+            letterKey = Math.round(Math.random() * (letters.length -1))
+            letterShow.html(letters[letterKey]);
+            enable()
+        }
 
     };
 
@@ -125,7 +140,7 @@ var FastTyping = function () {
                 break;
 
             case STATE_LEVEL:
-                lastState = level;
+                lastState = levelSelect;
                 break;
 
             case STATE_GAME:
