@@ -8,7 +8,9 @@ var FastTyping = function () {
 
     var name,
         lastState,
-        level;
+        level,
+        score;
+
 
     // -------------------------------Register name logic--------------------------------------------
 
@@ -61,21 +63,24 @@ var FastTyping = function () {
     var LevelLogic = function () {
 
         var view = $('#selectLevel'),
-            levelButton = $('#selectLevel-button');
+            levelButton = $('#selectLevel-button'),
+        welcomeUser = $('#welcome-user');
 
         this.show = function () {
-            view.removeClass('invisible').prepend('<h3>Player ' + name + '</h3>');
+            view.removeClass('invisible')
+            welcomeUser.html('<h3>Player ' + name + '</h3>');
             enableLevel();
         };
 
         this.hide = function () {
-            view.addClass('invisible')
+            view.addClass('invisible');
             disableLevel();
         };
 
         function enableLevel() {
 
             levelButton.click(function () {
+
                 level = $('input[name = gamePlay]:checked').val();
                 changeState(STATE_GAME);
             })
@@ -85,7 +90,7 @@ var FastTyping = function () {
 
         function disableLevel() {
             levelButton.unbind();
-
+            level = $('input[name = gamePlay]').val('');
         }
     };
 
@@ -93,40 +98,116 @@ var FastTyping = function () {
     var levelSelect = new LevelLogic();
 
     // -------------------------------Game logic--------------------------------------------
-// set timeout
-// set interval
+
     var GameLogic = function () {
 
         var view = $('#game');
         var letters = 'abcdefghijklmnopqrstuvwxyz',
             timeOut,
             letterKey,
-            letterShow = $('h1');
+            letterShow = $('h2'),
+            lifeCount,
+            userInput = true;
+
 
         this.show = function () {
-            view.removeClass('hidden').prepend('<h3>Player ' + name + ' plays in level</h3>' + level);
+            view.removeClass('invisible').prepend('<h6>Player ' + name + ' , you have ' + level + ' s to type the letter</h6>');
             changeLetter();
+            enable();
+            lifeCount = 3;
+            score = 0;
         };
 
         this.hide = function () {
-            view.addClass('hidden')
-
+            view.addClass('invisible');
+            disable();
         };
-        
-        function enable() {
-            timeOut = setTimeout(changeLetter, level * 1000);
-        }
-        
-        function changeLetter(){
-            letterKey = Math.round(Math.random() * (letters.length -1))
-            letterShow.html(letters[letterKey]);
-            enable()
+
+        function updateScore() {
+            score += 1;
+            $('#score').html(score);
         }
 
+        function removeLife() {
+            lifeCount -= 1;
+            $('#life').html(lifeCount);
+
+            if (lifeCount === 0)
+                changeState(STATE_END);
+        }
+
+        function enable() {
+            $(window).keyup(
+                function (e) {
+                    if (e.key === letters[letterKey]) {
+                        updateScore()
+                    } else {
+                        removeLife()
+                    }
+
+                    userInput = true;
+                    changeLetter();
+                }
+            )
+        }
+
+        function disable() {
+            $(window).unbind();
+            clearTimeout(timeOut);
+
+        }
+
+        function changeLetter() {
+
+            if (!userInput)
+                removeLife();
+
+            clearTimeout(timeOut);
+
+            if (lifeCount <= 0)
+                return;
+
+            userInput = false;
+            timeOut = setTimeout(changeLetter, level * 1000);
+            letterKey = Math.round(Math.random() * (letters.length - 1));
+            letterShow.html(letters[letterKey]);
+        }
     };
 
     var game = new GameLogic();
+    // -------------------------------Game over --------------------------------------------
+    var GameOverLogic = function () {
+        var view = $('#gameOver');
+        var registerButton = $('#playAgain');
+
+        this.show = function () {
+            view.removeClass('invisible');
+            // console.log(score)
+            $('#lastScore').html(score);
+        };
+
+        this.hide = function () {
+            view.addClass("invisible");
+            disable();
+
+        };
+
+        registerButton.click(function () {
+            changeState(STATE_REGISTER);
+        });
+
+        function disable() {
+            // name = '';
+            // score = 0;
+            // level = null;
+
+        }
+    };
+
+
+    var gameOver = new GameOverLogic();
     // -------------------------------Change state --------------------------------------------
+
 
     function changeState(value) {
         if (lastState) {
@@ -148,6 +229,7 @@ var FastTyping = function () {
                 break;
 
             case STATE_END:
+                lastState = gameOver;
                 break;
 
             default:
@@ -156,13 +238,6 @@ var FastTyping = function () {
 
         lastState.show();
     }
-
-
-    function initialize() {
-        console.log('working');
-
-    }
-
 
     changeState(STATE_REGISTER);
 

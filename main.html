@@ -23,6 +23,7 @@
 </div>
 
 <div id="selectLevel" class="invisible">
+    <div id="welcome-user"></div>
     <form>
         <div class="form-check form-check-inline">
             <label class="form-check-label">
@@ -46,16 +47,23 @@
             </label>
         </div>
         <div>
-            <button id='selectLevel-button' type="submit" class="btn btn-secondary btn-lg active">Lets play!</button>
+            <button id='selectLevel-button' type="button" class="btn btn-secondary btn-lg active">Lets play!</button>
+
         </div>
     </form>
 </div>
 
 <div id="game" class="invisible">
 
-    <h2>Hello game player</h2>
-    <h1></h1>
+   <h2></h2>
+    <div>Score: <span id="score">0</span></div>
+    <div>Lives left: <span id="life">3</span></div>
+</div>
 
+<div id="gameOver" class="invisible" >
+    <h3> Game over</h3>
+<div>Your score is: <span id="lastScore"></span></div>
+    <button id="playAgain" class="btn btn-secondary btn-lg active">Play again</button>
 </div>
 
 

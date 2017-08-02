@@ -35,7 +35,7 @@
 #game {
     margin: auto;
     border-radius: 10px;
-    background-color: #998fb4;
+    background-color: #95b47d;
     height: 300px;
     width: 500px;
     text-align: center;
@@ -43,5 +43,14 @@
     vertical-align: middle;
 }
 
-
+#gameOver {
+    margin: auto;
+    border-radius: 10px;
+    background-color: #b49f79;
+    height: 300px;
+    width: 500px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
 
