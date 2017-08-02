@@ -53,4 +53,6 @@
     display: table-cell;
     vertical-align: middle;
 }
-
+.golden{
+    color: yellow;
+}

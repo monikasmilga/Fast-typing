@@ -64,7 +64,7 @@ var FastTyping = function () {
 
         var view = $('#selectLevel'),
             levelButton = $('#selectLevel-button'),
-        welcomeUser = $('#welcome-user');
+            welcomeUser = $('#welcome-user');
 
         this.show = function () {
             view.removeClass('invisible')
@@ -90,10 +90,11 @@ var FastTyping = function () {
 
         function disableLevel() {
             levelButton.unbind();
-            level = $('input[name = gamePlay]').val('');
+            // level = $('input[name = gamePlay]').val('');
         }
     };
 
+    //TODO: reset radio box value
 
     var levelSelect = new LevelLogic();
 
@@ -107,15 +108,23 @@ var FastTyping = function () {
             letterKey,
             letterShow = $('h2'),
             lifeCount,
-            userInput = true;
+            userInput,
+            userLevel = $('#user-level'),
+            letterAppearance,
+            keyUpTime,
+            timeAmount,
+            isGolden;
 
 
         this.show = function () {
-            view.removeClass('invisible').prepend('<h6>Player ' + name + ' , you have ' + level + ' s to type the letter</h6>');
+            lifeCount = 3;
+            $('#life').html(lifeCount);
+            userInput = true;
+            score = 0;
+            view.removeClass('invisible');
+            userLevel.html('<h6>Player ' + name + ' , you have ' + level + ' s to type the letter</h6>');
             changeLetter();
             enable();
-            lifeCount = 3;
-            score = 0;
         };
 
         this.hide = function () {
@@ -124,11 +133,28 @@ var FastTyping = function () {
         };
 
         function updateScore() {
-            score += 1;
+
+            if (isGolden) {
+                isGolden = false;
+                for (i = 0; i < 5; i++) {
+                    updateScore();
+                }
+            } else {
+                score += 1;
+            }
+
+            if (score % 20 === 0) {
+
+                lifeCount += 1;
+                $('#life').html(lifeCount);
+            }
+
             $('#score').html(score);
         }
 
+
         function removeLife() {
+
             lifeCount -= 1;
             $('#life').html(lifeCount);
 
@@ -139,14 +165,21 @@ var FastTyping = function () {
         function enable() {
             $(window).keyup(
                 function (e) {
+
                     if (e.key === letters[letterKey]) {
                         updateScore()
                     } else {
                         removeLife()
                     }
 
+                    keyUpTime = Date.now();
+
                     userInput = true;
                     changeLetter();
+
+                    timeAmount = (letterAppearance - keyUpTime);
+                    console.log(keyUpTime, letterAppearance, timeAmount);
+
                 }
             )
         }
@@ -154,24 +187,38 @@ var FastTyping = function () {
         function disable() {
             $(window).unbind();
             clearTimeout(timeOut);
-
         }
 
         function changeLetter() {
 
-            if (!userInput)
-                removeLife();
 
+            if (!userInput) {
+                removeLife();
+            }
             clearTimeout(timeOut);
 
-            if (lifeCount <= 0)
+
+            if (lifeCount <= 0) {
                 return;
 
+            }
+            if (Math.random() < 0.1) {
+                isGolden = true;
+                letterShow.addClass('golden');
+
+            } else {
+                isGolden = false;
+                letterShow.removeClass('golden');
+            }
             userInput = false;
             timeOut = setTimeout(changeLetter, level * 1000);
             letterKey = Math.round(Math.random() * (letters.length - 1));
             letterShow.html(letters[letterKey]);
+
+            letterAppearance = Date.now();
         }
+
+
     };
 
     var game = new GameLogic();
